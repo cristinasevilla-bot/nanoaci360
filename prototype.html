@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%2316211a%22/><circle cx=%2216%22 cy=%2216%22 r=%228%22 fill=%22%23cdf14e%22/></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NanoACi Companion concept prototype: candidacy check, recovery companion, NanoACi 100 registry dashboard and the 360 loop. Simulated data, not a medical device.">
 <title>NanoACi Companion - prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,6 +38,7 @@
     --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   body {
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     background: var(--page);
@@ -105,14 +107,14 @@
   .chips button {
     font: inherit; font-size: 13px; font-weight: 500; color: var(--accent);
     background: var(--chip-bg); border: 1px solid var(--chip-border); border-radius: 8px;
-    padding: 7px 14px; cursor: pointer;
+    padding: 9px 14px; min-height: 38px; cursor: pointer;
   }
   .chips button:hover { border-color: var(--accent); }
   .chips .restart { color: var(--muted); background: none; border-color: var(--border); }
   .chat-input { display: flex; gap: 8px; padding: 10px 16px 12px; border-top: 1px solid var(--border); }
   .chat-input input {
     flex: 1; min-width: 0; font: inherit; font-size: 14px; color: var(--text-primary);
-    background: var(--bot-bg); border: 1px solid var(--border); border-radius: 10px; padding: 9px 13px; outline: none;
+    background: var(--bot-bg); border: 1px solid var(--border); border-radius: 10px; padding: 9px 13px;
   }
   .chat-input input:focus { border-color: var(--accent); }
   .chat-input input::placeholder { color: var(--muted); }
@@ -215,15 +217,15 @@
 <div class="wrap">
   <p class="strap">One AI layer across the patient journey: pre-travel screening in, structured evidence out. Built around the NanoACi 100 outcomes programme.</p>
 
-  <nav class="tabs" role="tablist">
-    <button class="active" data-view="triage">1 · Candidacy check<span class="ctx">patient, before travel</span></button>
-    <button data-view="recovery">2 · Recovery companion<span class="ctx">patient, after procedure</span></button>
-    <button data-view="dash">3 · NanoACi 100 registry<span class="ctx">clinical team</span></button>
-    <button data-view="loop">4 · The 360 loop<span class="ctx">where clients come from</span></button>
+  <nav class="tabs" role="tablist" aria-label="Prototype views">
+    <button class="active" id="tab-triage" role="tab" aria-selected="true" aria-controls="view-triage" data-view="triage">1 · Candidacy check<span class="ctx">patient, before travel</span></button>
+    <button id="tab-recovery" role="tab" aria-selected="false" aria-controls="view-recovery" data-view="recovery">2 · Recovery companion<span class="ctx">patient, after procedure</span></button>
+    <button id="tab-dash" role="tab" aria-selected="false" aria-controls="view-dash" data-view="dash">3 · NanoACi 100 registry<span class="ctx">clinical team</span></button>
+    <button id="tab-loop" role="tab" aria-selected="false" aria-controls="view-loop" data-view="loop">4 · The 360 loop<span class="ctx">where clients come from</span></button>
   </nav>
 
   <!-- ================= TRIAGE ================= -->
-  <section class="view active" id="view-triage">
+  <section class="view active" id="view-triage" role="tabpanel" aria-labelledby="tab-triage">
     <div class="chat-shell">
       <div class="chat-card">
         <div class="chat-head"><span class="dot"></span><div><div class="t">Pre-assessment assistant</div><div class="s">Guides, gathers, never diagnoses</div></div></div>
@@ -260,7 +262,7 @@
   </section>
 
   <!-- ================= RECOVERY ================= -->
-  <section class="view" id="view-recovery">
+  <section class="view" id="view-recovery" role="tabpanel" aria-labelledby="tab-recovery">
     <div class="chat-shell">
       <div class="chat-card">
         <div class="chat-head"><span class="dot"></span><div><div class="t">Recovery check-in - week 6</div><div class="s">Demo patient: M.G., knee, procedure 12 Jun</div></div></div>
@@ -296,7 +298,7 @@
   </section>
 
   <!-- ================= DASHBOARD ================= -->
-  <section class="view" id="view-dash">
+  <section class="view" id="view-dash" role="tabpanel" aria-labelledby="tab-dash">
     <div class="tiles">
       <div class="tile"><div class="label">Cases enrolled</div><div class="value">47<small> / 100</small></div><div class="delta">+4 this month</div></div>
       <div class="tile"><div class="label">Follow-up completion</div><div class="value">94<small>%</small></div><div class="delta">vs 60-70% typical for PROMs questionnaires</div></div>
@@ -383,7 +385,7 @@
   </section>
 
   <!-- ================= 360 LOOP ================= -->
-  <section class="view" id="view-loop">
+  <section class="view" id="view-loop" role="tabpanel" aria-labelledby="tab-loop">
     <div class="chart-card" style="padding-bottom:16px">
       <h3>The flywheel - evidence in, clients out</h3>
       <div class="sub">Each turn of the loop makes the next one cheaper. One shared data layer underneath.</div>
@@ -451,13 +453,24 @@
 /* ---------------- tabs ---------------- */
 const tabs = document.querySelectorAll('nav.tabs button');
 tabs.forEach(b => b.addEventListener('click', () => {
-  tabs.forEach(x => x.classList.remove('active'));
+  tabs.forEach(x => { x.classList.remove('active'); x.setAttribute('aria-selected', 'false'); });
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   b.classList.add('active');
+  b.setAttribute('aria-selected', 'true');
   document.getElementById('view-' + b.dataset.view).classList.add('active');
   if (b.dataset.view === 'dash') drawCharts();
   if (b.dataset.view === 'loop') drawLoop();
 }));
+document.querySelector('nav.tabs').addEventListener('keydown', e => {
+  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const arr = [...tabs];
+  const i = arr.indexOf(document.activeElement);
+  if (i < 0) return;
+  e.preventDefault();
+  const next = arr[(i + (e.key === 'ArrowRight' ? 1 : arr.length - 1)) % arr.length];
+  next.focus();
+  next.click();
+});
 
 /* ---------------- chat engine ---------------- */
 function chat(logId, chipsId, inputId, flow) {

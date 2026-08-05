@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%2316211a%22/><circle cx=%2216%22 cy=%2216%22 r=%228%22 fill=%22%23cdf14e%22/></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NanoACi Companion - a proposal for nanoaci.com: one AI layer across the patient journey. Screening in, evidence out, clients back in. Presented with a working prototype.">
 <title>NanoACi Companion - the 360 offer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +30,9 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-snap-type: y mandatory; }
+  /* on short viewports slides overflow 100vh; proximity keeps their content reachable */
+  @media (max-height: 640px) { html { scroll-snap-type: y proximity; } }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   body {
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     background: var(--page); color: var(--text-primary);
@@ -56,8 +60,10 @@
 
   /* dots nav */
   .dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 10; }
-  .dots a { width: 8px; height: 8px; border-radius: 50%; background: var(--baseline); display: block; transition: all 0.15s; }
-  .dots a.on { background: var(--accent); transform: scale(1.4); }
+  .dots { gap: 4px; }
+  .dots a { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; }
+  .dots a::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--baseline); transition: all 0.15s; }
+  .dots a.on::before { background: var(--accent); transform: scale(1.4); }
   .hint { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--muted); z-index: 10; }
 
   /* title slide */
