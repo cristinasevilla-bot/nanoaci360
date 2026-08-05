@@ -142,6 +142,19 @@
   .pager .note { font-size: 11.5px; color: var(--muted); margin-top: 8px; }
 
   .side-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+
+  /* WhatsApp-style delivery mock (tab 2) */
+  .phone { border: 1px solid rgba(0,0,0,0.35); border-radius: 14px; overflow: hidden; background: #ece5dd; }
+  .wa-head { background: #075e54; color: #fff; padding: 9px 12px; display: flex; align-items: center; gap: 9px; }
+  .wa-avatar { flex: none; width: 27px; height: 27px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 800; display: grid; place-items: center; }
+  .wa-name { font-size: 12.5px; font-weight: 700; }
+  .wa-status { font-size: 10.5px; opacity: 0.8; }
+  .wa-chat { padding: 12px 10px; display: flex; flex-direction: column; gap: 7px; }
+  .wa-bubble { max-width: 86%; background: #fff; color: #111b21; font-size: 12.5px; line-height: 1.45; padding: 6px 9px 4px; border-radius: 8px; border-top-left-radius: 2px; align-self: flex-start; box-shadow: 0 1px 0 rgba(0,0,0,0.08); }
+  .wa-bubble.out { background: #dcf8c6; align-self: flex-end; border-top-left-radius: 8px; border-top-right-radius: 2px; }
+  .wa-time { display: block; text-align: right; font-size: 9.5px; color: #667781; margin-top: 2px; }
+  .wa-time .ticks { font-style: normal; color: #53bdeb; letter-spacing: -0.12em; }
+  .wa-note { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 10px; }
   .side-card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 10px; }
   .side-card p, .side-card li { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; }
   .side-card ul { padding-left: 18px; }
@@ -277,6 +290,22 @@
         <div class="side-card">
           <h3>Why this is the core idea</h3>
           <p>NanoACi 100 stands or falls on follow-up. Patients fly home, and paper questionnaires at fixed timepoints get lost. A conversational check-in collects the same validated outcome measures (KOOS-style) with far higher completion, and feeds the registry automatically.</p>
+        </div>
+        <div class="side-card">
+          <h3>How it actually arrives</h3>
+          <div class="phone" role="img" aria-label="WhatsApp mock-up: the week 6 check-in arrives as a WhatsApp Business message and the patient replies in the same thread">
+            <div class="wa-head">
+              <span class="wa-avatar">N</span>
+              <div><div class="wa-name">NanoACi Companion</div><div class="wa-status">WhatsApp Business · online</div></div>
+            </div>
+            <div class="wa-chat">
+              <div class="wa-bubble">Good morning Maria - it's your week 6 check-in. Five quick questions, about 2 minutes. Ready?<span class="wa-time">09:00</span></div>
+              <div class="wa-bubble out">Ready<span class="wa-time">09:02 <i class="ticks">✓✓</i></span></div>
+              <div class="wa-bubble">First: your knee pain today, from 0 to 10?<span class="wa-time">09:02</span></div>
+              <div class="wa-bubble out">About a 4<span class="wa-time">09:03 <i class="ticks">✓✓</i></span></div>
+            </div>
+          </div>
+          <p class="wa-note">Same questions, same record - delivered where international patients actually reply, in their language. SMS and email as fallback, completion tracked per channel. The chat on the left is this conversation, browser-side.</p>
         </div>
         <div class="side-card">
           <h3>Design rules</h3>
